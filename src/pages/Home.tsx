@@ -1110,7 +1110,7 @@ const Home: React.FC = () => {
           .app-root {
             padding: 0.75rem;
             min-height: 100vh;
-            align-items: flex-start;
+            align-items: center;
             padding-top: 1rem;
             padding-bottom: 1rem;
           }
@@ -1118,8 +1118,8 @@ const Home: React.FC = () => {
           .app-container {
             padding: 1.25rem 1rem;
             border-radius: 1rem;
-            max-width: 100%;
-            margin: 0;
+            max-width: calc(100% - 1rem);
+            margin: 0 auto;
           }
 
           .app-header {
@@ -1227,6 +1227,8 @@ const Home: React.FC = () => {
           .app-container {
             padding: 1rem 0.75rem;
             border-radius: 0.875rem;
+            max-width: calc(100% - 0.75rem);
+            margin: 0 auto;
           }
 
           .app-header {
@@ -1374,6 +1376,8 @@ const Home: React.FC = () => {
           .app-container {
             padding: 0.875rem 0.65rem;
             border-radius: 0.75rem;
+            max-width: calc(100% - 0.5rem);
+            margin: 0 auto;
           }
 
           .app-header {
