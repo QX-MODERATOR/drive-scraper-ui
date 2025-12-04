@@ -106,6 +106,29 @@ const Home: React.FC = () => {
           box-sizing: border-box;
         }
 
+        :root {
+          --flow-size: 200% 200%;
+          --cool-spectrum: linear-gradient(
+            120deg,
+            #0ea5e9,
+            #38bdf8,
+            #7c3aed,
+            #312e81,
+            #0ea5e9,
+            #38bdf8,
+            #7c3aed
+          );
+          --cool-spectrum-spinner: conic-gradient(
+            from 0deg,
+            #0ea5e9,
+            #38bdf8,
+            #67e8f9,
+            #7c3aed,
+            #312e81,
+            #0ea5e9
+          );
+        }
+
         .app-root {
           min-height: 100vh;
           display: flex;
@@ -118,6 +141,31 @@ const Home: React.FC = () => {
           font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
           overflow-x: hidden;
           position: relative;
+          perspective: 1200px;
+        }
+
+        /* Page-wide animated border */
+        .app-root::before {
+          content: "";
+          position: fixed;
+          inset: 12px;
+          border-radius: 1.75rem;
+          padding: 3px;
+          background: linear-gradient(
+            120deg,
+            rgba(14, 165, 233, 0.8),
+            rgba(56, 189, 248, 0.85),
+            rgba(124, 58, 237, 0.85),
+            rgba(49, 46, 129, 0.9),
+            rgba(14, 165, 233, 0.8)
+          );
+          background-size: var(--flow-size);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor;
+          pointer-events: none;
+          z-index: 0;
         }
 
         /* ============================================================================
@@ -127,14 +175,52 @@ const Home: React.FC = () => {
         .app-container {
           width: 100%;
           max-width: 1000px;
-          background: rgba(15, 23, 42, 0.95);
+          background: var(--cool-spectrum);
+          background-size: var(--flow-size);
           border-radius: 1.5rem;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+          box-shadow:
+            0 14px 40px rgba(0, 0, 0, 0.45),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
           padding: 2rem;
           box-sizing: border-box;
-          border: 1px solid rgba(56, 189, 248, 0.15);
+          border: 1px solid rgba(56, 189, 248, 0.22);
           position: relative;
           z-index: 1;
+          overflow: hidden;
+          animation: container-flow 9s ease-in-out infinite alternate;
+          transform-style: preserve-3d;
+          transition: transform 0.2s ease, box-shadow 0.3s ease;
+          transform: translateZ(0);
+        }
+
+        .app-container:hover {
+          transform: translateY(-3px) translateZ(18px) rotateX(0.4deg) rotateY(-0.4deg);
+          box-shadow:
+            0 18px 48px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .app-container:focus-within {
+          outline: 2px solid rgba(56, 189, 248, 0.7);
+          outline-offset: 6px;
+        }
+
+        .app-container.is-loading {
+          filter: saturate(0.95) brightness(0.95);
+        }
+
+        .app-container::after {
+          content: "";
+          position: absolute;
+          inset: 8px;
+          border-radius: 1.25rem;
+          background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 35%),
+            radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.05), transparent 40%),
+            radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.06), transparent 45%);
+          mix-blend-mode: screen;
+          pointer-events: none;
+          opacity: 0.9;
+          animation: container-shimmer 7s ease-in-out infinite alternate;
         }
 
         /* Animated border glow */
@@ -171,6 +257,29 @@ const Home: React.FC = () => {
             background-position: 100% 50%;
             filter: hue-rotate(30deg);
           }
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          .app-root::before {
+            animation: page-border-slide 6s linear infinite;
+          }
+        }
+
+        @keyframes page-border-slide {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        @keyframes container-flow {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        @keyframes container-shimmer {
+          0% { transform: translate3d(-1%, -1%, 0) scale(1); }
+          100% { transform: translate3d(1%, 1%, 0) scale(1.02); }
         }
 
         /* Inner glow effect */
@@ -345,9 +454,8 @@ const Home: React.FC = () => {
         .submit-button {
           padding: 0.9rem 2rem;
           border-radius: 1rem;
-          border: none;
-          background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
-          color: #ffffff;
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          color: #e6f6ff;
           font-weight: 800;
           font-size: 1.05rem;
           letter-spacing: 0.02em;
@@ -358,22 +466,77 @@ const Home: React.FC = () => {
           gap: 0.5rem;
           position: relative;
           overflow: hidden;
-          transition: transform 0.15s ease, box-shadow 0.15s ease;
-          box-shadow: 0 4px 0 #0369a1, 0 6px 15px rgba(56, 189, 248, 0.3);
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+          transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.3s ease;
+          background: var(--cool-spectrum);
+          background-size: var(--flow-size);
+          box-shadow:
+            0 8px 0 rgba(70, 30, 130, 0.7),
+            0 12px 25px rgba(0, 0, 0, 0.45),
+            inset 0 1px 0 rgba(255, 255, 255, 0.25),
+            0 0 18px rgba(255, 255, 255, 0.2);
+          text-shadow:
+            0 1px 4px rgba(255, 255, 255, 0.7),
+            0 1px 2px rgba(0, 0, 0, 0.35);
           white-space: nowrap;
           will-change: transform;
           transform: translateZ(0);
+          animation: rainbow-flow 3s linear infinite;
+          backdrop-filter: saturate(1.1) blur(1px);
+          transform-style: preserve-3d;
+        }
+
+        .submit-button::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.35), transparent 30%),
+            radial-gradient(circle at 80% 25%, rgba(255, 255, 255, 0.2), transparent 35%),
+            radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.18), transparent 40%);
+          mix-blend-mode: screen;
+          pointer-events: none;
+          animation: rainbow-drift 4s ease-in-out infinite alternate;
+        }
+
+        .submit-button::after {
+          content: "";
+          position: absolute;
+          inset: 6%;
+          border-radius: 0.8rem;
+          background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.02));
+          box-shadow:
+            inset 0 -2px 8px rgba(0, 0, 0, 0.35),
+            inset 0 2px 6px rgba(255, 255, 255, 0.2);
+          pointer-events: none;
         }
 
         .submit-button:hover {
           transform: translateY(-2px) translateZ(0);
-          box-shadow: 0 6px 0 #0369a1, 0 10px 20px rgba(56, 189, 248, 0.4);
+          box-shadow:
+            0 10px 0 rgba(120, 39, 130, 0.7),
+            0 16px 28px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.25),
+            0 0 24px rgba(255, 255, 255, 0.28);
+          filter: saturate(1.1) brightness(1.05);
         }
 
         .submit-button:active {
           transform: translateY(2px) translateZ(0);
-          box-shadow: 0 2px 0 #0369a1, 0 4px 8px rgba(56, 189, 248, 0.2);
+          box-shadow:
+            0 5px 0 rgba(120, 39, 130, 0.7),
+            0 8px 16px rgba(0, 0, 0, 0.45),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+          filter: saturate(1) brightness(0.98);
+        }
+
+        @keyframes rainbow-flow {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        @keyframes rainbow-drift {
+          from { transform: translate3d(-2%, -2%, 0) scale(1); }
+          to { transform: translate3d(2%, 2%, 0) scale(1.03); }
         }
 
         .submit-button:disabled {
@@ -386,16 +549,50 @@ const Home: React.FC = () => {
 
         /* Spinner animation */
         .submit-button-spinner {
-          width: 18px;
-          height: 18px;
-          border-radius: 50%;
-          border: 3px solid rgba(255, 255, 255, 0.3);
-          border-top-color: #ffffff;
-          animation: spin 0.8s linear infinite;
+          position: relative;
+          width: 22px;
+          height: 22px;
+          border-radius: 9999px;
+          background: var(--cool-spectrum-spinner);
+          box-shadow:
+            inset 0 2px 8px rgba(255, 255, 255, 0.15),
+            0 4px 10px rgba(0, 0, 0, 0.3);
+          overflow: hidden;
+          animation: spin 1s linear infinite, spinner-breathe 1.5s ease-in-out infinite;
+        }
+
+        .submit-button-spinner::after {
+          content: "";
+          position: absolute;
+          inset: 3px;
+          border-radius: 9999px;
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%),
+            repeating-conic-gradient(
+              from 0deg,
+              rgba(255, 255, 255, 0.18) 0deg,
+              rgba(255, 255, 255, 0.1) 12deg,
+              rgba(255, 255, 255, 0.1) 24deg,
+              rgba(255, 255, 255, 0.18) 36deg
+            );
+          box-shadow:
+            inset 0 -2px 6px rgba(0, 0, 0, 0.35),
+            inset 0 4px 8px rgba(255, 255, 255, 0.12);
+          animation: spinner-waves 1.2s linear infinite;
         }
 
         @keyframes spin {
           to { transform: rotate(360deg); }
+        }
+
+        @keyframes spinner-breathe {
+          0%, 100% { transform: scale(0.96); box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.15), 0 4px 10px rgba(0, 0, 0, 0.3); }
+          50% { transform: scale(1); box-shadow: inset 0 2px 12px rgba(255, 255, 255, 0.25), 0 6px 14px rgba(0, 0, 0, 0.35); }
+        }
+
+        @keyframes spinner-waves {
+          0% { transform: translate3d(0, 0, 0); filter: hue-rotate(0deg); }
+          50% { transform: translate3d(0, -1px, 0); filter: hue-rotate(30deg); }
+          100% { transform: translate3d(0, 0, 0); filter: hue-rotate(60deg); }
         }
 
         /* ============================================================================
@@ -1053,7 +1250,7 @@ const Home: React.FC = () => {
         }
       `}</style>
 
-      <div className="app-container">
+      <div className={`app-container${loading ? " is-loading" : ""}`}>
         <header className="app-header">
           <h1 className="app-title">Google Drive File Extractor</h1>
           <p className="app-subtitle">
