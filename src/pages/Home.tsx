@@ -142,6 +142,7 @@ const Home: React.FC = () => {
           overflow-x: hidden;
           position: relative;
           perspective: 1200px;
+          width: 100%;
         }
 
         /* Page-wide animated border */
@@ -168,6 +169,22 @@ const Home: React.FC = () => {
           z-index: 0;
         }
 
+        @media (max-width: 768px) {
+          .app-root::before {
+            inset: 6px;
+            border-radius: 1rem;
+            padding: 2px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .app-root::before {
+            inset: 4px;
+            border-radius: 0.75rem;
+            padding: 2px;
+          }
+        }
+
         /* ============================================================================
            MAIN CONTAINER - GLASSMORPHISM CARD
            ============================================================================ */
@@ -191,13 +208,25 @@ const Home: React.FC = () => {
           transform-style: preserve-3d;
           transition: transform 0.2s ease, box-shadow 0.3s ease;
           transform: translateZ(0);
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
 
-        .app-container:hover {
-          transform: translateY(-3px) translateZ(18px) rotateX(0.4deg) rotateY(-0.4deg);
-          box-shadow:
-            0 18px 48px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        @media (hover: hover) and (pointer: fine) {
+          .app-container:hover {
+            transform: translateY(-3px) translateZ(18px) rotateX(0.4deg) rotateY(-0.4deg);
+            box-shadow:
+              0 18px 48px rgba(0, 0, 0, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.08);
+          }
+
+          .app-container:hover .app-subtitle {
+            color: #cbd5e1;
+          }
+
+          .app-container:hover::before {
+            opacity: 1;
+          }
         }
 
         .app-container:focus-within {
@@ -244,9 +273,6 @@ const Home: React.FC = () => {
           animation: borderGlow 3s ease-in-out infinite;
         }
 
-        .app-container:hover::before {
-          opacity: 1;
-        }
 
         @keyframes borderGlow {
           0%, 100% { 
@@ -311,6 +337,7 @@ const Home: React.FC = () => {
           align-items: flex-start;
           position: relative;
           z-index: 2;
+          width: 100%;
         }
 
         .app-title {
@@ -349,11 +376,11 @@ const Home: React.FC = () => {
           line-height: 1.6;
           max-width: 600px;
           transition: color 0.3s ease;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          width: 100%;
         }
 
-        .app-container:hover .app-subtitle {
-          color: #cbd5e1;
-        }
 
         /* ============================================================================
            FORM STYLES
@@ -405,6 +432,8 @@ const Home: React.FC = () => {
           transition: border-color 0.15s ease, box-shadow 0.15s ease;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
           will-change: border-color, box-shadow;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
 
         .folder-input::placeholder {
@@ -412,9 +441,6 @@ const Home: React.FC = () => {
           font-style: italic;
         }
 
-        .folder-input:hover {
-          border-color: rgba(56, 189, 248, 0.4);
-        }
 
         .folder-input:focus {
           border-color: #38bdf8;
@@ -441,10 +467,16 @@ const Home: React.FC = () => {
           transition: all 0.3s ease;
         }
 
-        .auth-select-label:hover {
-          background: rgba(30, 41, 59, 0.7);
-          border-color: rgba(148, 163, 184, 0.2);
-          color: #cbd5e1;
+        @media (hover: hover) and (pointer: fine) {
+          .auth-select-label:hover {
+            background: rgba(30, 41, 59, 0.7);
+            border-color: rgba(148, 163, 184, 0.2);
+            color: #cbd5e1;
+          }
+
+          .folder-input:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+          }
         }
 
         /* ============================================================================
@@ -509,14 +541,20 @@ const Home: React.FC = () => {
           pointer-events: none;
         }
 
-        .submit-button:hover {
-          transform: translateY(-2px) translateZ(0);
-          box-shadow:
-            0 10px 0 rgba(120, 39, 130, 0.7),
-            0 16px 28px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.25),
-            0 0 24px rgba(255, 255, 255, 0.28);
-          filter: saturate(1.1) brightness(1.05);
+        @media (hover: hover) and (pointer: fine) {
+          .submit-button:hover {
+            transform: translateY(-2px) translateZ(0);
+            box-shadow:
+              0 10px 0 rgba(120, 39, 130, 0.7),
+              0 16px 28px rgba(0, 0, 0, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.25),
+              0 0 24px rgba(255, 255, 255, 0.28);
+            filter: saturate(1.1) brightness(1.05);
+          }
+
+          .export-button-container .submit-button:hover {
+            box-shadow: 0 6px 0 #065f46, 0 10px 20px rgba(16, 185, 129, 0.4);
+          }
         }
 
         .submit-button:active {
@@ -837,10 +875,24 @@ const Home: React.FC = () => {
           contain: layout style;
         }
 
-        .file-list-row:hover {
-          transform: translateX(4px) translateZ(0);
-          border-color: rgba(56, 189, 248, 0.4);
-          background: rgba(56, 189, 248, 0.08);
+        @media (hover: hover) and (pointer: fine) {
+          .file-list-row:hover {
+            transform: translateX(4px) translateZ(0);
+            border-color: rgba(56, 189, 248, 0.4);
+            background: rgba(56, 189, 248, 0.08);
+          }
+
+          .file-list-row:hover::after {
+            opacity: 1;
+          }
+
+          .file-list-row:hover .file-name {
+            color: #7dd3fc;
+          }
+
+          .file-list-row:hover .file-mime {
+            background: rgba(56, 189, 248, 0.25);
+          }
         }
 
         /* Left border accent */
@@ -859,10 +911,6 @@ const Home: React.FC = () => {
           pointer-events: none;
         }
 
-        .file-list-row:hover::after {
-          opacity: 1;
-        }
-
         .file-name {
           font-size: 1rem;
           color: #ffffff;
@@ -874,10 +922,6 @@ const Home: React.FC = () => {
           padding-left: 0.75rem;
           position: relative;
           z-index: 1;
-        }
-
-        .file-list-row:hover .file-name {
-          color: #7dd3fc;
         }
 
         .file-mime {
@@ -895,9 +939,6 @@ const Home: React.FC = () => {
           text-transform: capitalize;
         }
 
-        .file-list-row:hover .file-mime {
-          background: rgba(56, 189, 248, 0.25);
-        }
 
         /* ============================================================================
            ACTION BUTTONS - 3D STYLE
@@ -934,12 +975,23 @@ const Home: React.FC = () => {
           transform: translateZ(0);
         }
 
-        .link-button:hover,
-        .link-copy-button:hover {
-          transform: translateY(-1px) translateZ(0);
-          border-color: #38bdf8;
-          color: #ffffff;
-          background: rgba(56, 189, 248, 0.15);
+        @media (hover: hover) and (pointer: fine) {
+          .link-button:hover,
+          .link-copy-button:hover {
+            transform: translateY(-1px) translateZ(0);
+            border-color: #38bdf8;
+            color: #ffffff;
+            background: rgba(56, 189, 248, 0.15);
+          }
+
+          .link-button:first-child:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.25);
+          }
+
+          .link-copy-button:hover {
+            border-style: solid;
+          }
         }
 
         .link-button:active,
@@ -954,10 +1006,6 @@ const Home: React.FC = () => {
           color: #6ee7b7;
         }
 
-        .link-button:first-child:hover {
-          border-color: #10b981;
-          background: rgba(16, 185, 129, 0.25);
-        }
 
         /* Copy buttons dashed style */
         .link-copy-button {
@@ -965,9 +1013,6 @@ const Home: React.FC = () => {
           background: rgba(30, 41, 59, 0.7);
         }
 
-        .link-copy-button:hover {
-          border-style: solid;
-        }
 
         /* ============================================================================
            NO FILES STATE
@@ -1009,9 +1054,6 @@ const Home: React.FC = () => {
           box-shadow: 0 4px 0 #065f46, 0 6px 15px rgba(16, 185, 129, 0.3);
         }
 
-        .export-button-container .submit-button:hover {
-          box-shadow: 0 6px 0 #065f46, 0 10px 20px rgba(16, 185, 129, 0.4);
-        }
 
         .export-button-container .submit-button:active {
           box-shadow: 0 2px 0 #065f46, 0 4px 8px rgba(16, 185, 129, 0.2);
@@ -1067,20 +1109,45 @@ const Home: React.FC = () => {
         @media (max-width: 768px) {
           .app-root {
             padding: 0.75rem;
+            min-height: 100vh;
+            align-items: flex-start;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
           }
 
           .app-container {
             padding: 1.25rem 1rem;
             border-radius: 1rem;
             max-width: 100%;
+            margin: 0;
+          }
+
+          .app-header {
+            margin-bottom: 1.75rem;
+            gap: 0.5rem;
           }
 
           .app-title {
             font-size: 1.6rem;
+            line-height: 1.2;
           }
 
           .app-subtitle {
             font-size: 0.95rem;
+            line-height: 1.5;
+            margin-top: 0.25rem;
+          }
+
+          .form-row {
+            margin-bottom: 1.5rem;
+          }
+
+          .input-group {
+            gap: 1rem;
+          }
+
+          .controls-row {
+            gap: 1rem;
           }
 
           .file-list-card {
@@ -1098,13 +1165,12 @@ const Home: React.FC = () => {
             padding: 0.85rem;
           }
 
-          .file-list-row:hover {
-            transform: translateX(2px) translateZ(0);
-          }
 
           .file-name {
             font-size: 0.9rem;
             padding-left: 0;
+            word-break: break-word;
+            white-space: normal;
           }
 
           .file-mime {
@@ -1116,6 +1182,7 @@ const Home: React.FC = () => {
             justify-content: flex-start;
             flex-wrap: wrap;
             gap: 0.35rem;
+            width: 100%;
           }
 
           .link-button,
@@ -1134,6 +1201,18 @@ const Home: React.FC = () => {
           .folder-meta {
             font-size: 0.9rem;
             padding: 0.6rem 0.85rem;
+            word-break: break-word;
+          }
+
+          .status-row {
+            margin-bottom: 1rem;
+          }
+
+          .status-error,
+          .status-success {
+            font-size: 0.9rem;
+            padding: 0.65rem 1rem;
+            word-break: break-word;
           }
         }
 
@@ -1141,17 +1220,42 @@ const Home: React.FC = () => {
         @media (max-width: 480px) {
           .app-root {
             padding: 0.5rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
           }
 
           .app-container {
             padding: 1rem 0.75rem;
+            border-radius: 0.875rem;
+          }
+
+          .app-header {
+            margin-bottom: 1.5rem;
+            gap: 0.4rem;
           }
 
           .app-title {
             font-size: 1.35rem;
+            line-height: 1.2;
+            word-break: break-word;
+          }
+
+          .app-title::after {
+            width: 50px;
+            height: 3px;
           }
 
           .app-subtitle {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-top: 0.25rem;
+          }
+
+          .form-row {
+            margin-bottom: 1.25rem;
+          }
+
+          .input-label {
             font-size: 0.85rem;
           }
 
@@ -1159,20 +1263,75 @@ const Home: React.FC = () => {
             padding: 0.75rem 0.9rem;
             font-size: 0.95rem;
             border-radius: 0.75rem;
+            word-break: break-word;
+          }
+
+          .folder-input::placeholder {
+            font-size: 0.9rem;
           }
 
           .submit-button {
             padding: 0.75rem 1.25rem;
             font-size: 0.95rem;
+            width: 100%;
+          }
+
+          .controls-row {
+            gap: 0.75rem;
+          }
+
+          .auth-select-label {
+            font-size: 0.8rem;
+            padding: 0.6rem 0.8rem;
+            line-height: 1.4;
+            word-break: break-word;
+          }
+
+          .status-row {
+            margin-bottom: 1rem;
+          }
+
+          .status-error,
+          .status-success {
+            font-size: 0.85rem;
+            padding: 0.6rem 0.9rem;
+            flex-wrap: wrap;
+          }
+
+          .folder-meta {
+            font-size: 0.85rem;
+            padding: 0.55rem 0.75rem;
+            line-height: 1.4;
+          }
+
+          .file-list-section {
+            margin-top: 0.75rem;
+          }
+
+          .file-list-card {
+            padding: 0.65rem;
+            border-radius: 0.875rem;
           }
 
           .file-list-row {
             padding: 0.75rem;
             border-radius: 0.75rem;
+            gap: 0.5rem;
           }
 
           .file-name {
             font-size: 0.85rem;
+            line-height: 1.4;
+          }
+
+          .file-mime {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.7rem;
+          }
+
+          .file-actions {
+            gap: 0.3rem;
+            width: 100%;
           }
 
           .link-button,
@@ -1180,22 +1339,112 @@ const Home: React.FC = () => {
             padding: 0.35rem 0.5rem;
             font-size: 0.7rem;
             border-radius: 0.5rem;
+            flex: 1 1 calc(50% - 0.15rem);
+            min-width: 0;
           }
 
-          .auth-select-label {
-            font-size: 0.8rem;
-            padding: 0.6rem 0.8rem;
+          .export-button-container {
+            margin-top: 1.25rem;
+          }
+
+          .export-button-container .submit-button {
+            padding: 0.7rem 1.15rem;
+            font-size: 0.9rem;
+          }
+
+          .no-files {
+            padding: 2rem 1rem;
+            font-size: 0.95rem;
+          }
+
+          .no-files::before {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
           }
         }
 
         /* Very small phones */
         @media (max-width: 360px) {
+          .app-root {
+            padding: 0.4rem;
+            padding-top: 0.6rem;
+            padding-bottom: 0.6rem;
+          }
+
+          .app-container {
+            padding: 0.875rem 0.65rem;
+            border-radius: 0.75rem;
+          }
+
+          .app-header {
+            margin-bottom: 1.25rem;
+          }
+
           .app-title {
             font-size: 1.2rem;
+            line-height: 1.2;
+          }
+
+          .app-title::after {
+            width: 40px;
+            height: 2px;
           }
 
           .app-subtitle {
             font-size: 0.8rem;
+            line-height: 1.4;
+          }
+
+          .form-row {
+            margin-bottom: 1rem;
+          }
+
+          .input-label {
+            font-size: 0.8rem;
+          }
+
+          .folder-input {
+            padding: 0.65rem 0.8rem;
+            font-size: 0.9rem;
+          }
+
+          .submit-button {
+            padding: 0.65rem 1.15rem;
+            font-size: 0.9rem;
+          }
+
+          .auth-select-label {
+            font-size: 0.75rem;
+            padding: 0.55rem 0.7rem;
+          }
+
+          .status-error,
+          .status-success {
+            font-size: 0.8rem;
+            padding: 0.55rem 0.8rem;
+          }
+
+          .folder-meta {
+            font-size: 0.8rem;
+            padding: 0.5rem 0.65rem;
+          }
+
+          .file-list-card {
+            padding: 0.55rem;
+          }
+
+          .file-list-row {
+            padding: 0.65rem;
+            gap: 0.45rem;
+          }
+
+          .file-name {
+            font-size: 0.8rem;
+          }
+
+          .file-mime {
+            font-size: 0.65rem;
+            padding: 0.25rem 0.6rem;
           }
 
           .file-actions {
@@ -1206,6 +1455,23 @@ const Home: React.FC = () => {
           .link-button,
           .link-copy-button {
             width: 100%;
+            padding: 0.4rem 0.6rem;
+            font-size: 0.7rem;
+          }
+
+          .export-button-container .submit-button {
+            padding: 0.65rem 1rem;
+            font-size: 0.85rem;
+          }
+
+          .no-files {
+            padding: 1.5rem 0.875rem;
+            font-size: 0.9rem;
+          }
+
+          .no-files::before {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
           }
         }
 
